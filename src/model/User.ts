@@ -7,10 +7,12 @@ const userSchema=new Schema({
     email:{
         required:[true,"Email field is required"],
         type:Schema.Types.String,
+        unique:true,
+        trim:true
     },
     phone_no:{
         required:[true,"Phone no is required"],
-        type:Schema.Types.Number,
+        type:Schema.Types.String,
 
     },
     dob:{

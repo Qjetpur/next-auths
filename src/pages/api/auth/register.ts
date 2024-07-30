@@ -9,7 +9,7 @@ import {User} from "@/model/User"
 // For DB Connection
 connect();
 
-export  default async function POST(request:NextRequest){
+export default async function POST(request:NextRequest){
 
     try {
        const body =await request.json();
@@ -23,7 +23,7 @@ export  default async function POST(request:NextRequest){
         return NextResponse.json({
             status:400,
             errors:{
-                email:"Email is already Taken"
+                email:"Email is already Taken. Please use another email"
             }
         },{status:200})
     }else{
@@ -32,12 +32,12 @@ export  default async function POST(request:NextRequest){
        output.password=bcrypt.hashSync(output.password,salt);
        await User.create(output)
        return NextResponse.json({status:200,message:"User Created Successfully"},
-        {status:200})
+        {status:200});
     }
 
     } catch (error) {
         if (error instanceof errors.E_VALIDATION_ERROR) {
-            return NextResponse.json({status:400,errors},{status:400})
+            return NextResponse.json({status:400,errors:error.messages},{status:200});
           }
     }
     
