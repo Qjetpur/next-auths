@@ -1,9 +1,12 @@
-"use client"
+"use client";
 import React,{useState} from "react";
 import Link from 'next/link';
+import axios from 'axios';
+import {useRouter} from "next/navigation"
 
 
 export default function  Register() {
+  const router=useRouter();
     const [authState,setAuthState]=useState({
         name:"",
         email:"",
@@ -13,10 +16,71 @@ export default function  Register() {
         password_confirmation:"",
 
     });
+ const [loading,setLoading]=useState<boolean>(false)
+ const [errors,setErrors]=useState<registerErrorType>();
+// const submitForm=  async ()=>{
+//     setLoading(true)
+//     console.log("This auth State is",authState);
+//     axios.post("/api/auth/register",authState)
+//     .then((res)=>{
+//       setLoading(false);
+//       const response=res.data
+//       if(response.status==200){
+//         console.log("user signed up");
+//       }else if(response?.status==400){
+//            setErrors(response?.errors)
+//       }
+//     }).catch((err)=>{
+//       setLoading(false);
+//       console.log("went wrong")
+//     })
+// }
 
-const submitForm=()=>{
-    console.log("This auth State is",authState);
-}
+
+// const submitForm = () => {
+//   setLoading(true);
+//   console.log("This auth State is", authState);
+//   axios.post("http://localhost:3000/api/auth/register", authState)
+//       .then((res) => {
+//           setLoading(false);
+//           const response = res.data;
+//           if (response.status == 200) {
+//               console.log("user signed up");
+//                 console.log("Router:", router);
+//               router.push(`/login?message=${response.message}`)
+//           } else if (response?.status == 400) {
+//               setErrors(response?.errors);
+//           }
+//       }).catch((err) => {
+//           setLoading(false);
+//           console.log("went wrong");
+//       });
+// }
+
+const submitForm = () => {
+  setLoading(true);
+  console.log("This auth State is", authState);
+  axios.post("http://localhost:3000/api/auth/register", authState)
+    .then((res) => {
+      setLoading(false);
+      const response = res.data;
+      console.log("Response:", response);
+      if (response.status == 200) {
+        console.log("user signed up");
+        console.log("Router:", router);
+        window.location.href = `/login?message=${response.message}`;
+        // router.push(`/login ?message=${response.message}`);
+        // redirect(`/login ?message=${response.message}`)
+      } else if (response?.status == 400) {
+        setErrors(response?.errors);
+      }
+    }).catch((err) => {
+      setLoading(false);
+      console.log("went wrong", err);
+    });
+};
+
+
   return (
     <section>
       <div className="grid grid-cols-1 lg:grid-cols-2 h-screen">
@@ -134,6 +198,9 @@ const submitForm=()=>{
                       placeholder="Full Name"
                       onChange={(e)=>setAuthState({...authState,name:e.target.value})}
                     ></input>
+                    <span className="text-red-500 font-bold">
+                      {errors?.name}
+                    </span>
                   </div>
                 </div>
                 <div>
@@ -148,6 +215,9 @@ const submitForm=()=>{
                       placeholder="Email"
                       onChange={(e)=>setAuthState({...authState,email:e.target.value})}
                     ></input>
+                        <span className="text-red-500 font-bold">
+                      {errors?.email}
+                    </span>
                   </div>
                 </div>
          
@@ -164,12 +234,14 @@ const submitForm=()=>{
                       placeholder="Phone no"
                       onChange={(e)=>setAuthState({...authState,phone_no:e.target.value})}
                     ></input>
+                        <span className="text-red-500 font-bold">
+                      {errors?.phone_no}
+                    </span>
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="" className="text-base font-medium text-gray-900">
-                
                    Date Of Birth
                   </label>
                   <div className="mt-2">
@@ -180,6 +252,9 @@ const submitForm=()=>{
                       placeholder="Date Of Birth"
                       onChange={(e)=>setAuthState({...authState,dob:e.target.value})}
                     ></input>
+                      <span className="text-red-500 font-bold">
+                      {errors?.dob}
+                    </span>
                   </div>
                 </div>
                 
@@ -198,6 +273,9 @@ const submitForm=()=>{
                       placeholder="Password"
                       onChange={(e)=>setAuthState({...authState,password:e.target.value})}
                     ></input>
+                        <span className="text-red-500 font-bold">
+                      {errors?.password}
+                    </span>
                   </div>
                 </div>
 
@@ -222,10 +300,10 @@ const submitForm=()=>{
                 <div>
                   <button
                     type="button"
-                    className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                    className={`inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80 ${loading?"bg-gray":"bg-black"}`}
                   onClick={submitForm}
                   >
-                    Sign Up
+                   {loading?"Processing":"Register "} Sign Up
                   </button>
                 </div>
               </div>
@@ -255,3 +333,6 @@ const submitForm=()=>{
     </section>
   )
 }
+
+
+

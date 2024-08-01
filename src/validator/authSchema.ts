@@ -11,5 +11,5 @@ export const registerSchema=vine.object({
 
 export const loginSchema=vine.object({
     email:vine.string().email(),
-    password:vine.string().minLength(6).maxLength(14).regex(/^(?=(.*[a-z]){3,})(?=(.*[A-Z]){2,})(?=(.*[0-9]){2,})(?=(.*[!@#$%^&*()\-__+.]){1,}).{8,}$/)
+    password:vine.string().minLength(6).maxLength(14)
 })

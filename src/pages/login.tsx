@@ -1,9 +1,13 @@
 import React,{useState} from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import axios from 'axios';
 
 
 export default function Login() {
-
+   const params=useSearchParams();
+   const [loading,setLoading]=useState<boolean>(false)
+   const [errors,setErrors]=useState<loginErrorType>();
     const [authState,setAuthState]=useState({
         email:"",
         password:"",
@@ -11,6 +15,22 @@ export default function Login() {
 
 const submitForm=()=>{
     console.log("This auth State is",authState);
+    axios.post("http://localhost:3000/api/auth/login", authState)
+    .then((res) => {
+      setLoading(false);
+      const response = res.data;
+      console.log("Response:", response);
+      if (response.status == 200) {
+        console.log("user signed up");
+
+      } else if (response?.status == 400) {
+        setErrors(response?.errors);
+      }
+    }).catch((err) => {
+      setLoading(false);
+      console.log("Something went wrong", err);
+    });
+    
 }
 
   return (
@@ -116,6 +136,7 @@ const submitForm=()=>{
                 Create a free account
               </Link>
             </p>
+            {params.get("message")?<p className='bg-green-400 font-bold rounded-4 p-4'>{params.get("message")}</p>:<></>}
             <form action="#" method="POST" className="mt-8">
               <div className="space-y-5">
                 <div>
@@ -129,6 +150,9 @@ const submitForm=()=>{
                       placeholder="Email"
                       onChange={(e)=>setAuthState({...authState,email:e.target.value})}
                     ></input>
+                     <span className="text-red-500 font-bold">
+                      {errors?.email}
+                    </span>
                   </div>
                 </div>
                 <div>
@@ -137,14 +161,7 @@ const submitForm=()=>{
                     
                       Password
                     </label>
-                    <a
-                      href="#"
-                      title=""
-                      className="text-sm font-semibold text-black hover:underline"
-                    >
-                      {' '}
-                      Forgot password?{' '}
-                    </a>
+                   
                   </div>
                   <div className="mt-2">
                     <input
@@ -153,15 +170,18 @@ const submitForm=()=>{
                       placeholder="Password"
                       onChange={(e)=>setAuthState({...authState,password:e.target.value})}
                     ></input>
+                     <span className="text-red-500 font-bold">
+                      {errors?.password}
+                    </span>
                   </div>
                 </div>
                 <div>
                   <button
                     type="button"
-                    className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                    className={`inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80 ${loading?"bg-gray":"bg-black"}`}
                     onClick={submitForm} 
                   >
-                   Login
+                 {loading?"Processing":"Login"}
                   </button>
                 </div>
               </div>

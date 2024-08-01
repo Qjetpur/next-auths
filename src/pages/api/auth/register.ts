@@ -35,11 +35,14 @@ export default async function handler(
       const salt = bcrypt.genSaltSync(10);
       output.password = bcrypt.hashSync(output.password, salt);
       await User.create(output);
-      return res.status(200).json({ message: "User created successfully" });
+      return res.status(200).json({ message: "Account created Successfully.Please login to your Account" });
     }
   } catch (error) {
     if (error instanceof errors.E_VALIDATION_ERROR) {
-      return res.status(400).json({ errors: error.messages });
+      return res.json(
+      {
+        status:400,errors:error.messages
+      })
     } else {
       console.error(error);
       return res.status(500).json({ message: "Internal server error" });
