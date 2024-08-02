@@ -18,45 +18,7 @@ export default function  Register() {
     });
  const [loading,setLoading]=useState<boolean>(false)
  const [errors,setErrors]=useState<registerErrorType>();
-// const submitForm=  async ()=>{
-//     setLoading(true)
-//     console.log("This auth State is",authState);
-//     axios.post("/api/auth/register",authState)
-//     .then((res)=>{
-//       setLoading(false);
-//       const response=res.data
-//       if(response.status==200){
-//         console.log("user signed up");
-//       }else if(response?.status==400){
-//            setErrors(response?.errors)
-//       }
-//     }).catch((err)=>{
-//       setLoading(false);
-//       console.log("went wrong")
-//     })
-// }
-
-
-// const submitForm = () => {
-//   setLoading(true);
-//   console.log("This auth State is", authState);
-//   axios.post("http://localhost:3000/api/auth/register", authState)
-//       .then((res) => {
-//           setLoading(false);
-//           const response = res.data;
-//           if (response.status == 200) {
-//               console.log("user signed up");
-//                 console.log("Router:", router);
-//               router.push(`/login?message=${response.message}`)
-//           } else if (response?.status == 400) {
-//               setErrors(response?.errors);
-//           }
-//       }).catch((err) => {
-//           setLoading(false);
-//           console.log("went wrong");
-//       });
-// }
-
+ 
 const submitForm = () => {
   setLoading(true);
   console.log("This auth State is", authState);
@@ -68,8 +30,7 @@ const submitForm = () => {
       if (response.status == 200) {
         console.log("user signed up");
         console.log("Router:", router);
-        window.location.href = `/login?message=${response.message}`;
-        // router.push(`/login ?message=${response.message}`);
+        router.push(`/login ?message=${response.message}`);
         // redirect(`/login ?message=${response.message}`)
       } else if (response?.status == 400) {
         setErrors(response?.errors);
@@ -83,8 +44,8 @@ const submitForm = () => {
 
   return (
     <section>
-      <div className="grid grid-cols-1 lg:grid-cols-2 h-screen">
-        <div className="relative flex items-end px-4 pb-10 pt-60 sm:px-6 sm:pb-16 md:justify-center lg:px-8 lg:pb-24">
+      <div className=" h-screen">
+        {/* <div className="relative flex items-end px-4 pb-10 pt-60 sm:px-6 sm:pb-16 md:justify-center lg:px-8 lg:pb-24">
           <div className="absolute inset-0">
             <img
               className="h-full w-full rounded-md object-cover object-top"
@@ -170,7 +131,7 @@ const submitForm = () => {
               </ul>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
           <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md">
             <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign Up</h2>
@@ -303,30 +264,12 @@ const submitForm = () => {
                     className={`inline-flex w-full items-center justify-center rounded-md px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80 ${loading?"bg-gray":"bg-black"}`}
                   onClick={submitForm}
                   >
-                   {loading?"Processing":"Register "} Sign Up
+                   {loading?"Processing":"Sign Up "} 
                   </button>
                 </div>
               </div>
             </form>
-            <div className="mt-3 space-y-3">
-              <button
-                type="button"
-                className="relative inline-flex w-full items-center justify-center rounded-md border border-gray-400 bg-white px-3.5 py-2.5 font-semibold text-gray-700 transition-all duration-200 hover:bg-gray-100 hover:text-black focus:bg-gray-100 focus:text-black focus:outline-none"
-              >
-                <span className="mr-2 inline-block">
-                  <svg
-                    className="h-6 w-6 text-rose-500"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <path d="M20.283 10.356h-8.327v3.451h4.792c-.446 2.193-2.313 3.453-4.792 3.453a5.27 5.27 0 0 1-5.279-5.28 5.27 5.27 0 0 1 5.279-5.279c1.259 0 2.397.447 3.29 1.178l2.6-2.599c-1.584-1.381-3.615-2.233-5.89-2.233a8.908 8.908 0 0 0-8.934 8.934 8.907 8.907 0 0 0 8.934 8.934c4.467 0 8.529-3.249 8.529-8.934 0-.528-.081-1.097-.202-1.625z"></path>
-                  </svg>
-                </span>
-                Sign in with Github
-              </button>
-           
-            </div>
+      
           </div>
         </div>
       </div>

@@ -17,10 +17,10 @@ export default async function handler(
   try {
     connect();
 
-    const body = req.body; // req.body is already parsed by Next.js
-    const validator = vine.compile(registerSchema);
-    validator.errorReporter = () => new ErrorReporter();
-    const output = await validator.validate(body);
+  const body = req.body; // req.body is already parsed by Next.js
+  const validator = vine.compile(registerSchema);
+  validator.errorReporter = () => new ErrorReporter();
+  const output = await validator.validate(body);
 
     // Check if email already exists
     const user = await User.findOne({ email: output.email });
