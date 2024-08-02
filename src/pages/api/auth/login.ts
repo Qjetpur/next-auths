@@ -16,7 +16,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const body = req.body;
     console.log('Request body:', body);
-
     const validator = vine.compile(loginSchema);
     validator.errorReporter = () => new ErrorReporter();
     const output = await validator.validate(body);
@@ -28,10 +27,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       if (checkPassword) {
         return res.status(200).json({ status: 200, message: "User Logged in" });
       }
-      return res.status(400).json({ status: 400, message: "Please Check your Credentials" });
+      else {return res.status(400).json({ status: 400, message: "Please Check your Credentials" });}
     }
 
-    return res.status(400).json({ status: 400, errors: { email: "No Account was found with this email" } });
+    else {return res.status(400).json({ status: 400, errors: { email: "No Account was found with this email" } })};
 
   } catch (error) {
     if (error instanceof errors.E_VALIDATION_ERROR) {

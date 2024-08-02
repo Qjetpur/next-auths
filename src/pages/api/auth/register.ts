@@ -35,7 +35,10 @@ export default async function handler(
       const salt = bcrypt.genSaltSync(10);
       output.password = bcrypt.hashSync(output.password, salt);
       await User.create(output);
-      return res.status(200).json({ message: "Account created Successfully.Please login to your Account" });
+      return res.status(200).json({
+        message: "Account created Successfully. Please login to your Account",
+        status: 200
+      });
     }
   } catch (error) {
     if (error instanceof errors.E_VALIDATION_ERROR) {

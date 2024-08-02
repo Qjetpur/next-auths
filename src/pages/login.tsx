@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -25,7 +24,7 @@ export default function Login() {
       console.log("Response:", response);
       if (response.status === 200) {
         console.log("User signed in");
-        alert("user Signed in")
+        alert("user Login")
       } else if (response?.status === 400) {
         setErrors(response?.errors);
       }
@@ -51,7 +50,7 @@ export default function Login() {
                 title=""
                 className="font-semibold text-black transition-all duration-200 hover:underline"
               >
-                Create a free account
+                Sign Up
               </Link>
             </p>
             {params.get("message") && <p className='bg-green-400 font-bold rounded-4 p-4'>{params.get("message")}</p>}
